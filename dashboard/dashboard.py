@@ -39,7 +39,7 @@ if menu == "Tren Polusi Udara":
     st.pyplot(fig)
     
     st.write("### Kesimpulan:")
-    st.write("Tren tahunan menunjukkan adanya fluktuasi dalam konsentrasi polutan udara. Sebagian besar polutan seperti PM2.5, PM10, NO2, SO2, CO, dan O3 mengalami penurunan sekitar tahun 2014 hingga 2016, namun kemudian menunjukkan peningkatan kembali pada tahun 2017. Ini menunjukkan adanya faktor-faktor eksternal yang mempengaruhi tingkat polusi udara, seperti perubahan kebijakan lingkungan atau peningkatan aktivitas industri dan transportasi.")
+    st.write("Tren tahunan menunjukkan adanya fluktuasi dalam konsentrasi polutan udara. Sebagian besar polutan seperti PM2.5, PM10, NO2, SO2, CO, dan O3 mengalami penurunan sekitar tahun 2014 hingga 2016, namun kemudian menunjukkan peningkatan kembali pada tahun 2017. Ini menunjukkan adanya faktor-faktor eksternal yang mempengaruhi tingkat polusi udara, mungkin saja adanya peningkatan aktivitas industri dan transportasi.")
 
 # 2️⃣ Stasiun dengan Polusi Tertinggi/Terendah
 elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
@@ -58,7 +58,7 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
         st.write(bottom_station)
     
     st.write("### Kesimpulan:")
-    st.write("Dari hasil analisis, ditemukan bahwa stasiun Gucheng dan Dongsi sering mencatatkan konsentrasi polutan yang lebih tinggi dibandingkan dengan stasiun lainnya. Hal ini dapat mengindikasikan bahwa wilayah sekitar stasiun tersebut memiliki aktivitas industri atau lalu lintas yang lebih padat. Sebaliknya, stasiun Huairou dan Dingling menunjukkan tingkat polusi yang relatif lebih rendah, yang kemungkinan disebabkan oleh kondisi lingkungan yang lebih baik atau lebih sedikit sumber polusi di sekitarnya.")
+    st.write("Dari hasil analisis, ditemukan bahwa stasiun Gucheng dan Dongsi sering mencatatkan konsentrasi polutan yang lebih tinggi dibandingkan dengan stasiun lainnya. Kemungkinan bahwa wilayah sekitar stasiun tersebut memiliki aktivitas industri atau lalu lintas yang lebih padat. Sebaliknya, stasiun Huairou dan Dingling menunjukkan tingkat polusi yang relatif lebih rendah, yang kemungkinan disebabkan oleh kondisi lingkungan yang lebih baik atau lebih sedikit sumber polusi di sekitarnya.")
 
 # 3️⃣ Perbandingan Polusi Berdasarkan Waktu
 elif menu == "Perbandingan Polusi Berdasarkan Waktu":
