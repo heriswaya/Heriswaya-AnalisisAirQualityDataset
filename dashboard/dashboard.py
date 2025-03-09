@@ -2,13 +2,15 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
-# Load dataset
 @st.cache_data
 def load_data():
-    return pd.read_csv("merged_air_quality.csv")
+    file_path = os.path.join(os.path.dirname(__file__), "merged_air_quality.csv")
+    return pd.read_csv(file_path)
 
 df = load_data()
+
 
 # Title
 st.title("Dashboard Analisis Data Kualitas Udara")
