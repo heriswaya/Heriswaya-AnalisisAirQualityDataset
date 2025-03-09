@@ -11,6 +11,11 @@ def load_data():
 
 df = load_data()
 
+# Buat kolom datetime dari year, month, day, dan hour
+df['datetime'] = pd.to_datetime(df[['year', 'month', 'day', 'hour']])
+
+# Ambil tahun dari kolom datetime
+df['Tahun'] = df['datetime'].dt.year
 
 # Title
 st.title("Dashboard Analisis Data Kualitas Udara")
@@ -21,7 +26,6 @@ menu = st.sidebar.selectbox("Pilih Analisis", [
 ])
 
 # 1️⃣ Analisis Tren Polusi Udara
-df['Tahun'] = pd.to_datetime(df['date']).dt.year
 if menu == "Tren Polusi Udara":
     st.subheader("Tren Polusi Udara dari Waktu ke Waktu")
     polutan = ['PM2.5', 'PM10', 'NO2', 'SO2', 'CO', 'O3']
@@ -53,7 +57,7 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
 # 3️⃣ Perbandingan Polusi Berdasarkan Waktu
 elif menu == "Perbandingan Polusi Berdasarkan Waktu":
     st.subheader("Perbandingan Polusi Udara pada Pagi, Siang, dan Malam")
-    df['Jam'] = pd.to_datetime(df['date']).dt.hour
+    df['Jam'] = df['datetime'].dt.hour
     df['Waktu'] = df['Jam'].apply(lambda x: 'Pagi' if 5 <= x < 12 else ('Siang' if 12 <= x < 18 else 'Malam'))
     polutan = st.selectbox("Pilih Polutan untuk Perbandingan Waktu", ['PM2.5', 'PM10', 'CO'])
     
@@ -65,4 +69,3 @@ elif menu == "Perbandingan Polusi Berdasarkan Waktu":
     st.pyplot(fig)
 
 st.write("Sumber Data: Dataset Kualitas Udara")
-
