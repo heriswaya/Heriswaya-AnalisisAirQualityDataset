@@ -29,8 +29,8 @@ Dashboard ini dibuat menggunakan **Streamlit** untuk menganalisis data kualitas 
  │   ├── PRSA_Data_Wanliu_20130301-20170228.csv
  │   └── PRSA_Data_Wanshouxigong_20130301-20170228.csv
  ├── 📄 requirements.txt
- └── 📄 Proyek_Analisis_Data.ipynb
- └── 📄 url.txt
+ ├── 📄 Proyek_Analisis_Data.ipynb
+ ├── 📄 url.txt
  └── 📄 README.md  👈 (Dokumen ini)
 ```
 
