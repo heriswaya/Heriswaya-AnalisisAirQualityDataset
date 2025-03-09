@@ -29,7 +29,7 @@ menu = st.sidebar.selectbox("Pilih Analisis", [
 if menu == "Tren Polusi Udara":
     st.subheader("Tren Polusi Udara dari Waktu ke Waktu")
     polutan = ['PM2.5', 'PM10', 'NO2', 'SO2', 'CO', 'O3']
-    fig, axes = plt.subplots(len(polutan), 1, figsize=(10, 20))
+    fig, axes = plt.subplots(len(polutan), 1, figsize=(10, 30), constrained_layout=True)
     for i, pol in enumerate(polutan):
         df_grouped = df.groupby('Tahun')[pol].mean()
         axes[i].plot(df_grouped.index, df_grouped.values, marker='o', linestyle='-', color='b')
@@ -68,4 +68,5 @@ elif menu == "Perbandingan Polusi Berdasarkan Waktu":
     ax.set_ylabel(f"Konsentrasi {polutan}")
     st.pyplot(fig)
 
-st.write("Sumber Data: Dataset Kualitas Udara")
+st.write("Sumber Data: [Dataset Kualitas Udara](https://github.com/marceloreis/HTI/tree/master)")
+st.write("© Copyright by Heriswaya")
