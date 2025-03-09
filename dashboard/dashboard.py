@@ -6,7 +6,7 @@ import seaborn as sns
 # Load dataset
 @st.cache_data
 def load_data():
-    return pd.read_csv("data/air_quality.csv")
+    return pd.read_csv("data/merged_air_quality.csv")
 
 df = load_data()
 
