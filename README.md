@@ -92,7 +92,7 @@ Proyek ini dibuat untuk tujuan edukasi dan dapat digunakan serta dimodifikasi se
 ---
 
 ## ✨ Kontributor
-- **Heriswayw** - [GitHub](https://github.com/heriswaya)
+- **Heriswaya** - [GitHub](https://github.com/heriswaya)
 
 Jika ada saran atau pertanyaan, silakan buat **issue** atau **pull request** di repository ini! 🚀
 
