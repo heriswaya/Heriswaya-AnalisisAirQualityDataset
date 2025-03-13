@@ -113,8 +113,8 @@ elif menu == "Perbandingan Polusi Berdasarkan Waktu":
     # **Kesimpulan**
     st.write("### Kesimpulan:")
     st.write(
-        f"Polusi udara cenderung lebih tinggi pada pagi dan malam hari, terutama untuk PM2.5 dan PM10. Hal ini kemungkinan disebabkan oleh kondisi atmosfer yang lebih stabil pada malam hari (membatasi dispersi polutan) dan peningkatan aktivitas manusia pada pagi hari seperti lalu lintas kendaraan."
-        "Pada siang hari, polusi cenderung lebih rendah karena adanya dispersi polutan yang lebih baik akibat pemanasan matahari dan peningkatan kecepatan angin. Namun, untuk O3 (ozon), konsentrasi tertinggi justru terjadi pada siang hari, yang disebabkan oleh reaksi fotokimia akibat paparan sinar matahari."
+        f"Polusi udara cenderung lebih tinggi pada pagi dan malam hari, untuk PM2.5, PM10, dan CO. Hal ini kemungkinan disebabkan oleh kondisi atmosfer yang lebih stabil pada malam hari (membatasi dispersi polutan) dan peningkatan aktivitas manusia pada pagi hari seperti lalu lintas kendaraan."
+        "Pada siang dan sore hari, polusi cenderung lebih rendah karena adanya dispersi polutan yang lebih baik akibat pemanasan matahari dan peningkatan kecepatan angin."
         "Setiap stasiun menunjukkan pola yang mirip, tetapi dengan tingkat polusi yang berbeda-beda, mencerminkan kondisi lokal yang memengaruhi kualitas udara di masing-masing wilayah."
     )
 
