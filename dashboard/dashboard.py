@@ -80,9 +80,9 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
 
     st.write("### Kesimpulan:")
     st.write(
-        "Dari hasil analisis, ditemukan bahwa beberapa stasiun memiliki tingkat polusi yang jauh lebih tinggi dibandingkan yang lain. "
-        "Hal ini bisa disebabkan oleh faktor lokasi, tingkat lalu lintas, aktivitas industri, atau kondisi geografis. "
-        "Sementara itu, beberapa stasiun memiliki kualitas udara yang lebih baik, mungkin karena lokasinya lebih jauh dari sumber polusi utama."
+        "Stasiun dengan tingkat polusi tertinggi: Gucheng dan Dongsi sering mencatatkan konsentrasi polutan yang lebih tinggi dibandingkan stasiun lainnya. Hal ini bisa disebabkan oleh faktor geografis, tingkat urbanisasi, dan kepadatan lalu lintas di sekitar stasiun. "
+        "Stasiun dengan tingkat polusi terendah: Huairou dan Dingling memiliki tingkat polusi yang relatif lebih rendah, kemungkinan karena lokasi mereka yang lebih jauh dari pusat kota dan memiliki lebih banyak area hijau."
+        "Terdapat korelasi tinggi antara polutan PM2.5, PM10, dan CO, yang menunjukkan bahwa sumber emisi utama dari polusi udara di daerah tersebut kemungkinan berasal dari aktivitas industri, transportasi, atau pembakaran biomassa."
     )
 
 # 3️⃣ Perbandingan Polusi Berdasarkan Waktu
@@ -113,8 +113,9 @@ elif menu == "Perbandingan Polusi Berdasarkan Waktu":
     # **Kesimpulan**
     st.write("### Kesimpulan:")
     st.write(
-        f"Dari hasil analisis distribusi polutan {polutan} berdasarkan waktu (Pagi, Siang, Sore, dan Malam), terlihat adanya pola tertentu dalam tingkat polusi. "
-        "Distribusi polusi bervariasi antar waktu, dengan kemungkinan peningkatan polusi di waktu tertentu akibat aktivitas manusia dan kondisi atmosfer."
+        f"Polusi udara cenderung lebih tinggi pada pagi dan malam hari, terutama untuk PM2.5 dan PM10. Hal ini kemungkinan disebabkan oleh kondisi atmosfer yang lebih stabil pada malam hari (membatasi dispersi polutan) dan peningkatan aktivitas manusia pada pagi hari seperti lalu lintas kendaraan."
+        "Pada siang hari, polusi cenderung lebih rendah karena adanya dispersi polutan yang lebih baik akibat pemanasan matahari dan peningkatan kecepatan angin. Namun, untuk O3 (ozon), konsentrasi tertinggi justru terjadi pada siang hari, yang disebabkan oleh reaksi fotokimia akibat paparan sinar matahari."
+        "Setiap stasiun menunjukkan pola yang mirip, tetapi dengan tingkat polusi yang berbeda-beda, mencerminkan kondisi lokal yang memengaruhi kualitas udara di masing-masing wilayah."
     )
 
 st.write("Sumber Data: [Dataset Kualitas Udara](https://github.com/marceloreis/HTI/tree/master)")
