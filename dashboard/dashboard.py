@@ -17,6 +17,11 @@ df['datetime'] = pd.to_datetime(df[['year', 'month', 'day', 'hour']])
 # Ambil tahun dari kolom datetime
 df['Tahun'] = df['datetime'].dt.year
 
+# Manual Grouping berdasarkan Binning
+bins = [0, 9, 14, 18, 23]  # Rentang jam
+labels = ["Pagi", "Siang", "Sore", "Malam"]  # Label waktu
+df['Waktu'] = pd.cut(df['datetime'].dt.hour, bins=bins, labels=labels, right=True)
+
 # Title
 st.title("Dashboard Analisis Data Kualitas Udara")
 
@@ -44,11 +49,11 @@ if menu == "Tren Polusi Udara":
 # 2️⃣ Stasiun dengan Polusi Tertinggi/Terendah
 elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
     st.subheader("Stasiun dengan Polusi Udara Tertinggi dan Terendah")
-    polutan = st.selectbox("Pilih Polutan", ['PM2.5', 'PM10', 'NO2', 'SO2', 'CO', 'O3'])
+    polutan = st.selectbox("Pilih Polutan", ['PM2.5', 'PM10', 'CO'])
     df_station = df.groupby('station')[polutan].mean().reset_index()
     top_station = df_station.nlargest(5, polutan)
     bottom_station = df_station.nsmallest(5, polutan)
-    
+
     col1, col2 = st.columns(2)
     with col1:
         st.write("### Stasiun dengan Polusi Tertinggi")
@@ -56,26 +61,61 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
     with col2:
         st.write("### Stasiun dengan Polusi Terendah")
         st.write(bottom_station)
-    
+
+    # **Visualisasi Barplot Stasiun dengan Polusi Tertinggi/Terendah**
+    pollutants_pertanyaan2 = ["PM2.5", "PM10", "CO"]
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))  # Tidak pakai sharey agar skala Y bebas
+
+    for i, pollutant in enumerate(pollutants_pertanyaan2):
+        station_avg = df.groupby('station')[pollutant].mean().sort_values()
+        sns.barplot(x=station_avg.index, y=station_avg.values, hue=station_avg.index, palette="coolwarm", ax=axes[i], legend=False)
+
+        axes[i].set_xticklabels(axes[i].get_xticklabels(), rotation=45)
+        axes[i].set_xlabel('Stasiun')
+        axes[i].set_ylabel(f'Rata-rata {pollutant}')
+        axes[i].set_title(f'Rata-rata {pollutant} di Setiap Stasiun')
+
+    plt.tight_layout()
+    st.pyplot(fig)
+
     st.write("### Kesimpulan:")
-    st.write("Dari hasil analisis, ditemukan bahwa stasiun Gucheng dan Dongsi sering mencatatkan konsentrasi polutan yang lebih tinggi dibandingkan dengan stasiun lainnya. Kemungkinan bahwa wilayah sekitar stasiun tersebut memiliki aktivitas industri atau lalu lintas yang lebih padat. Sebaliknya, stasiun Huairou dan Dingling menunjukkan tingkat polusi yang relatif lebih rendah, yang kemungkinan disebabkan oleh kondisi lingkungan yang lebih baik atau lebih sedikit sumber polusi di sekitarnya.")
+    st.write(
+        "Dari hasil analisis, ditemukan bahwa beberapa stasiun memiliki tingkat polusi yang jauh lebih tinggi dibandingkan yang lain. "
+        "Hal ini bisa disebabkan oleh faktor lokasi, tingkat lalu lintas, aktivitas industri, atau kondisi geografis. "
+        "Sementara itu, beberapa stasiun memiliki kualitas udara yang lebih baik, mungkin karena lokasinya lebih jauh dari sumber polusi utama."
+    )
 
 # 3️⃣ Perbandingan Polusi Berdasarkan Waktu
 elif menu == "Perbandingan Polusi Berdasarkan Waktu":
-    st.subheader("Perbandingan Polusi Udara pada Pagi, Siang, dan Malam")
-    df['Jam'] = df['datetime'].dt.hour
-    df['Waktu'] = df['Jam'].apply(lambda x: 'Pagi' if 5 <= x < 12 else ('Siang' if 12 <= x < 18 else 'Malam'))
-    polutan = st.selectbox("Pilih Polutan untuk Perbandingan Waktu", ['PM2.5', 'PM10', 'CO'])
-    
+    st.subheader("Perbandingan Polusi Udara Berdasarkan Waktu")
+    polutan = st.selectbox("Pilih Polutan untuk Analisis", ['PM2.5', 'PM10', 'CO'])
+
+    # 📌 **Boxplot untuk Distribusi Polusi**
     fig, ax = plt.subplots(figsize=(8, 5))
     sns.boxplot(x='Waktu', y=polutan, data=df, palette='coolwarm', ax=ax)
-    ax.set_title(f"Polusi {polutan} Berdasarkan Waktu")
+    ax.set_title(f"Distribusi {polutan} Berdasarkan Waktu")
     ax.set_xlabel("Waktu")
     ax.set_ylabel(f"Konsentrasi {polutan}")
     st.pyplot(fig)
-    
+
+    # 📌 **Heatmap untuk Visualisasi Polusi Berdasarkan Stasiun dan Waktu**
+    df_grouped = df.groupby(["station", "Waktu"])[polutan].mean().reset_index()
+    df_pivot = df_grouped.pivot(index="station", columns="Waktu", values=polutan)
+
+    plt.figure(figsize=(12, 6))
+    sns.heatmap(df_pivot, cmap="coolwarm", annot=True, fmt=".1f", linewidths=0.5)
+    plt.title(f"Heatmap Rata-rata {polutan} Berdasarkan Stasiun dan Waktu")
+    plt.xlabel("Waktu")
+    plt.ylabel("Stasiun")
+    plt.xticks(rotation=45)
+    st.pyplot(plt)
+
+    # **Kesimpulan**
     st.write("### Kesimpulan:")
-    st.write("Dari hasil analisis distribusi polutan berdasarkan waktu (pagi, siang, dan malam), terlihat bahwa tidak terdapat perbedaan yang signifikan dalam distribusi polusi PM2.5, PM10, dan CO sepanjang hari. Konsentrasi polusi cenderung seragam dengan beberapa nilai outlier yang cukup tinggi. Hal ini menunjukkan bahwa faktor utama yang mempengaruhi tingkat polusi bukan hanya waktu dalam sehari, tetapi juga kondisi lingkungan lainnya seperti cuaca, kelembapan, serta intensitas aktivitas manusia dan industri.")
+    st.write(
+        f"Dari hasil analisis distribusi polutan {polutan} berdasarkan waktu (Pagi, Siang, Sore, dan Malam), terlihat adanya pola tertentu dalam tingkat polusi. "
+        "Distribusi polusi bervariasi antar waktu, dengan kemungkinan peningkatan polusi di waktu tertentu akibat aktivitas manusia dan kondisi atmosfer."
+    )
 
 st.write("Sumber Data: [Dataset Kualitas Udara](https://github.com/marceloreis/HTI/tree/master)")
 st.write("© Copyright by Heriswaya")
