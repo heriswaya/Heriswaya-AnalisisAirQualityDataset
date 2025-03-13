@@ -49,11 +49,15 @@ if menu == "Tren Polusi Udara":
 # 2️⃣ Stasiun dengan Polusi Tertinggi/Terendah
 elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
     st.subheader("Stasiun dengan Polusi Udara Tertinggi dan Terendah")
+    # Pilih polutan
     polutan = st.selectbox("Pilih Polutan", ['PM2.5', 'PM10', 'CO'])
+    
+    # Data stasiun tertinggi & terendah
     df_station = df.groupby('station')[polutan].mean().reset_index()
     top_station = df_station.nlargest(5, polutan)
     bottom_station = df_station.nsmallest(5, polutan)
 
+    # Tampilkan tabel
     col1, col2 = st.columns(2)
     with col1:
         st.write("### Stasiun dengan Polusi Tertinggi")
@@ -62,20 +66,16 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
         st.write("### Stasiun dengan Polusi Terendah")
         st.write(bottom_station)
 
-    # **Visualisasi Barplot Stasiun dengan Polusi Tertinggi/Terendah**
-    pollutants_pertanyaan2 = ["PM2.5", "PM10", "CO"]
-    fig, axes = plt.subplots(1, 3, figsize=(18, 6))  # Tidak pakai sharey agar skala Y bebas
+    # **Visualisasi Barplot Stasiun dengan Polusi Sesuai Pilihan**
+    fig, ax = plt.subplots(figsize=(10, 5))
+    station_avg = df.groupby('station')[polutan].mean().sort_values()
+    sns.barplot(x=station_avg.index, y=station_avg.values, hue=station_avg.index, palette="coolwarm", ax=ax, legend=False)
+    
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
+    ax.set_xlabel('Stasiun')
+    ax.set_ylabel(f'Rata-rata {polutan}')
+    ax.set_title(f'Rata-rata {polutan} di Setiap Stasiun')
 
-    for i, pollutant in enumerate(pollutants_pertanyaan2):
-        station_avg = df.groupby('station')[pollutant].mean().sort_values()
-        sns.barplot(x=station_avg.index, y=station_avg.values, hue=station_avg.index, palette="coolwarm", ax=axes[i], legend=False)
-
-        axes[i].set_xticklabels(axes[i].get_xticklabels(), rotation=45)
-        axes[i].set_xlabel('Stasiun')
-        axes[i].set_ylabel(f'Rata-rata {pollutant}')
-        axes[i].set_title(f'Rata-rata {pollutant} di Setiap Stasiun')
-
-    plt.tight_layout()
     st.pyplot(fig)
 
     st.write("### Kesimpulan:")
