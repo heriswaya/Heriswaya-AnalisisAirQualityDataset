@@ -25,6 +25,18 @@ df['Waktu'] = pd.cut(df['datetime'].dt.hour, bins=bins, labels=labels, right=Tru
 # Title
 st.title("Dashboard Analisis Data Kualitas Udara")
 
+# **📌 Fitur Interaktif - Filter Rentang Tanggal**
+st.sidebar.subheader("Filter Rentang Tanggal")
+start_date = st.sidebar.date_input("Mulai Tanggal", df['datetime'].min().date())
+end_date = st.sidebar.date_input("Sampai Tanggal", df['datetime'].max().date())
+
+# Pastikan start_date <= end_date
+if start_date > end_date:
+    st.sidebar.error("Tanggal mulai tidak boleh lebih besar dari tanggal akhir!")
+
+# Terapkan filter pada dataset
+df_filtered = df[(df['datetime'].dt.date >= start_date) & (df['datetime'].dt.date <= end_date)]
+
 # Sidebar untuk memilih analisis
 menu = st.sidebar.selectbox("Pilih Analisis", [
     "Tren Polusi Udara", "Stasiun dengan Polusi Tertinggi/Terendah", "Perbandingan Polusi Berdasarkan Waktu"
@@ -36,7 +48,7 @@ if menu == "Tren Polusi Udara":
     polutan = ['PM2.5', 'PM10', 'NO2', 'SO2', 'CO', 'O3']
     fig, axes = plt.subplots(len(polutan), 1, figsize=(10, 30), constrained_layout=True)
     for i, pol in enumerate(polutan):
-        df_grouped = df.groupby('Tahun')[pol].mean()
+        df_grouped = df_filtered.groupby('Tahun')[pol].mean()
         axes[i].plot(df_grouped.index, df_grouped.values, marker='o', linestyle='-', color='b')
         axes[i].set_title(f"Tren Rata-rata {pol} per Tahun")
         axes[i].set_xlabel("Tahun")
@@ -53,7 +65,7 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
     polutan = st.selectbox("Pilih Polutan", ['PM2.5', 'PM10', 'CO'])
     
     # Data stasiun tertinggi & terendah
-    df_station = df.groupby('station')[polutan].mean().reset_index()
+    df_station = df_filtered.groupby('station')[polutan].mean().reset_index()
     top_station = df_station.nlargest(5, polutan)
     bottom_station = df_station.nsmallest(5, polutan)
 
@@ -68,9 +80,9 @@ elif menu == "Stasiun dengan Polusi Tertinggi/Terendah":
 
     # **Visualisasi Barplot Stasiun dengan Polusi Sesuai Pilihan**
     fig, ax = plt.subplots(figsize=(10, 5))
-    station_avg = df.groupby('station')[polutan].mean().sort_values()
+    station_avg = df_filtered.groupby('station')[polutan].mean().sort_values()
     sns.barplot(x=station_avg.index, y=station_avg.values, hue=station_avg.index, palette="coolwarm", ax=ax, legend=False)
-    
+
     ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
     ax.set_xlabel('Stasiun')
     ax.set_ylabel(f'Rata-rata {polutan}')
@@ -92,14 +104,14 @@ elif menu == "Perbandingan Polusi Berdasarkan Waktu":
 
     # 📌 **Boxplot untuk Distribusi Polusi**
     fig, ax = plt.subplots(figsize=(8, 5))
-    sns.boxplot(x='Waktu', y=polutan, data=df, palette='coolwarm', ax=ax)
+    sns.boxplot(x='Waktu', y=polutan, data=df_filtered, palette='coolwarm', ax=ax)
     ax.set_title(f"Distribusi {polutan} Berdasarkan Waktu")
     ax.set_xlabel("Waktu")
     ax.set_ylabel(f"Konsentrasi {polutan}")
     st.pyplot(fig)
 
     # 📌 **Heatmap untuk Visualisasi Polusi Berdasarkan Stasiun dan Waktu**
-    df_grouped = df.groupby(["station", "Waktu"])[polutan].mean().reset_index()
+    df_grouped = df_filtered.groupby(["station", "Waktu"])[polutan].mean().reset_index()
     df_pivot = df_grouped.pivot(index="station", columns="Waktu", values=polutan)
 
     plt.figure(figsize=(12, 6))
