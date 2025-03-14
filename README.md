@@ -5,7 +5,7 @@ Dashboard ini dibuat menggunakan **Streamlit** untuk menganalisis data kualitas 
 
 1. **Tren Polusi Udara** - Menampilkan tren polusi udara dari waktu ke waktu.
 2. **Stasiun dengan Polusi Tertinggi/Terendah** - Membandingkan rata-rata polusi di berbagai stasiun pemantauan.
-3. **Perbandingan Polusi Berdasarkan Waktu** - Menganalisis polusi berdasarkan waktu dalam sehari (Pagi, Siang, Malam).
+3. **Perbandingan Polusi Berdasarkan Waktu** - Menganalisis polusi berdasarkan waktu dalam sehari (Pagi, Siang, Sore, Malam).
 
 ---
 
@@ -41,23 +41,28 @@ Pastikan kamu telah menginstal **Python 3.8+** dan **pip**. Ikuti langkah-langka
 
 1. **Clone repository ini** (jika belum ada):
    ```bash
-   git clone https://github.com/username/heriswaya-analisisairqualitydataset.git
+   git clone https://github.com/heriswaya/heriswaya-analisisairqualitydataset.git
    cd heriswaya-analisisairqualitydataset/dashboard
    ```
 
-2. **Buat virtual environment (opsional tetapi disarankan)**:
+2. **Masuk ke folder `dashboard/`**
+   ```bash
+   cd dashboard
+   ```
+   
+4. **Buat virtual environment (opsional tetapi disarankan)**:
    ```bash
    python -m venv venv
    source venv/bin/activate  # Untuk macOS/Linux
    venv\Scripts\activate     # Untuk Windows
    ```
 
-3. **Install dependencies**:
+5. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Jalankan aplikasi Streamlit**:
+6. **Jalankan aplikasi Streamlit**:
    ```bash
    streamlit run dashboard.py
    ```
